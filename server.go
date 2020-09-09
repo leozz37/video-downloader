@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	//"os"
+	"os"
 	"os/exec"
 	"time"
 
@@ -51,11 +51,18 @@ func YoutubeDownload(w http.ResponseWriter, r *http.Request) {
 	DeleteVideo()
 }
 
+// Home
+func Home(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, "Use the \"/youtube/\" on the url (https://go-video.herokuapp.com/youtube/) and past the youtube url after")
+}
+
 func main() {
 	router := mux.NewRouter()
-	// port := os.Getenv("PORT")
+	port := os.Args[1]
 
 	// Routes
 	router.HandleFunc("/youtube/{id}", YoutubeDownload).Methods("GET")
-	log.Fatal(http.ListenAndServe(":8000", router))
+	router.HandleFunc("/", Home).Methods("GET")
+
+	log.Fatal(http.ListenAndServe(":"+port, router))
 }
