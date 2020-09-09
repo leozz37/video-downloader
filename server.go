@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
+	//"os"
 	"os/exec"
 	"time"
 
@@ -53,9 +53,9 @@ func YoutubeDownload(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	router := mux.NewRouter()
-	port := os.Getenv("PORT")
+	// port := os.Getenv("PORT")
 
 	// Routes
 	router.HandleFunc("/youtube/{id}", YoutubeDownload).Methods("GET")
-	log.Fatal(http.ListenAndServe(":"+port, router))
+	log.Fatal(http.ListenAndServe(":8000", router))
 }
