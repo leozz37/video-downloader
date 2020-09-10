@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/gorilla/mux"
+	"github.com/leozz37/video-downloader/instagram"
 	"github.com/leozz37/video-downloader/youtube"
 )
 
@@ -16,11 +17,15 @@ func Home(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	log.Print("Go-Video started!")
+
 	router := mux.NewRouter()
 	port := os.Args[1]
 
 	// Routes
 	router.HandleFunc("/youtube/{id}", youtube.Download).Methods("GET")
+	router.HandleFunc("/instagram/{id}", instagram.Download).Methods("GET")
+
 	router.HandleFunc("/", Home).Methods("GET")
 
 	log.Fatal(http.ListenAndServe(":"+port, router))
