@@ -50,8 +50,7 @@ jobs:
         run: docker build . --file Dockerfile --tag $IMAGE_NAME
 
       - name: Log into GitHub Container Registry
-      # TODO: Create a PAT with `read:packages` and `write:packages` scopes and save it as an Actions secret `CR_PAT`
-        run: echo "${{ secrets.PACKAGE_TOKEN }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
+        run: echo "${{ secrets.PACKAGE_TOKEN }}" | docker login docker.pkg.github.com -u "${{ github.actor }}" --password-stdin
 
       - name: Push image to GitHub Container Registry
         run: |
@@ -72,6 +71,5 @@ jobs:
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
           
-          
-          docker tag $IMAGE_NAME docker.pkg.github.com/"${GITHUB_USER}"/$IMAGE_NAME/$IMAGE_NAME:$VERSION
+          docker tag $IMAGE_NAME docker.pkg.github.com/"${{ github.actor }}"/$IMAGE_NAME/$IMAGE_NAME:$VERSION
           docker push docker.pkg.github.com/"${{ github.actor }}"/$IMAGE_NAME/$IMAGE_NAME:$VERSION
