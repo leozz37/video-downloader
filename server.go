@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"strings"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -15,18 +16,25 @@ import (
 
 // DownloadYoutubeVideo downloads video from youtube
 func DownloadYoutubeVideo(id string) {
+	id = FormatMailiciousURL(id)
+
 	url := "https://www.youtube.com/watch?v=" + id
-
 	cmd := "youtube-dl " + url + " -o video.mp4"
-	exec.Command("sh", "-c", cmd).Output()
 
+	exec.Command("sh", "-c", cmd).Output()
 	fmt.Println("Video " + url + " downloaded!")
 }
 
 // DeleteVideo deletes video file
 func DeleteVideo() {
-	cmd := "rm video.mp4"
+	cmd := "rm *.mp4"
 	exec.Command("sh", "-c", cmd).Output()
+}
+
+// FormatMailiciousURL formats a URL if it has malicious character
+func FormatMailiciousURL(input string) string {
+	formatedInput := strings.Replace(input, "&", "", -1)
+	return formatedInput
 }
 
 // YoutubeDownload downloads file on browser
@@ -39,7 +47,9 @@ func YoutubeDownload(w http.ResponseWriter, r *http.Request) {
 	videoPath := "video.mp4"
 	data, err := ioutil.ReadFile(videoPath)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
+		DeleteVideo()
+		return
 	}
 
 	w.Header().Set("Content-Type", "application/octet-stream")
@@ -51,9 +61,9 @@ func YoutubeDownload(w http.ResponseWriter, r *http.Request) {
 	DeleteVideo()
 }
 
-// Home
+// Home page
 func Home(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Use the \"/youtube/\" on the url (https://go-video.herokuapp.com/youtube/) and past the youtube url after")
+	fmt.Fprint(w, "Use the \"/youtube/\" on the url (https://go-video.herokuapp.com/youtube/) and past the YouTube video URL after that")
 }
 
 func main() {
