@@ -1,4 +1,4 @@
-package youtube
+package instagram
 
 import (
 	"bytes"
@@ -17,7 +17,7 @@ func Download(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	var id = params["id"]
 
-	DownloadYoutubeVideo(id)
+	DownloadInstagramVideo(id)
 
 	videoPath := "video.mp4"
 	data, err := ioutil.ReadFile(videoPath)
@@ -36,16 +36,21 @@ func Download(w http.ResponseWriter, r *http.Request) {
 	DeleteVideo()
 }
 
-// DownloadYoutubeVideo downloads video from youtube
-func DownloadYoutubeVideo(id string) {
+// DownloadInstagramVideo downloads video from instagram
+func DownloadInstagramVideo(id string) {
 	id = FormatMailiciousURL(id)
-	url := "https://www.youtube.com/watch?v=" + id
+	url := "https://www.instagram.com/p/" + id + "/"
 
-	log.Println("YOUTUBE | received " + url)
-	cmd := "youtube-dl " + url + " -o video.mp4"
+	log.Println("INSTAGRAM | received " + url)
+	cmd := "instalooter post \"" + url + "\" -T video -V"
 
-	exec.Command("sh", "-c", cmd).Output()
-	log.Println("YOUTUBE   | video " + url + " downloaded!")
+	_, err := exec.Command("sh", "-c", cmd).Output()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	log.Println("INSTAGRAM | video " + url + " downloaded!")
 }
 
 // DeleteVideo deletes video file
