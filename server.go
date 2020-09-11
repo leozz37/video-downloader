@@ -13,7 +13,8 @@ import (
 
 // Home page
 func Home(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Use the \"/youtube/\" on the url (https://go-video.herokuapp.com/youtube/) and past the YouTube video URL after that")
+	fmt.Fprint(w, "Use the \"/youtube/\" on the url (https://go-video.herokuapp.com/youtube/) and past the YouTube video URL after that \n" + 
+				  "or use \"/instagram/\" to download Instagram videos!")
 }
 
 func main() {
