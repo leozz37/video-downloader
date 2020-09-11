@@ -49,8 +49,15 @@ func Download(w http.ResponseWriter, r *http.Request, domain string) {
 // DownloadVideo downloads video from youtube
 func DownloadVideo(url string) {
 	log.Println("Received   | " + url)
-	cmd := "youtube-dl " + url + " -o video.mp4"
-	exec.Command("sh", "-c", cmd).Output()
+
+	cmd := "youtube-dl " + url + " -o \"/video-downloader/video.mp4\""
+
+	_, err := exec.Command("sh", "-c", cmd).Output()
+	if err != nil {
+		log.Print(err)
+		return
+	}
+
 	log.Println("Downloaded | " + url)
 }
 
