@@ -41,7 +41,7 @@ func DownloadYoutubeVideo(id string) {
 	id = FormatMailiciousURL(id)
 	url := "https://www.youtube.com/watch?v=" + id
 
-	log.Println("YOUTUBE | received " + url)
+	log.Println("YOUTUBE   | received " + url)
 	cmd := "youtube-dl " + url + " -o video.mp4"
 
 	exec.Command("sh", "-c", cmd).Output()
