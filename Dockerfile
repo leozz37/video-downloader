@@ -3,14 +3,19 @@ FROM golang
 ARG ARG_PORT
 ENV PORT=$ARG_PORT
 
+RUN useradd -ms /bin/bash prod
+
 COPY . /video-downloader
+RUN chown -R prod:prod /video-downloader
 
  # Installing Youtube tool
-RUN curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl \
- && chmod a+rx /usr/local/bin/youtube-dl 
+RUN apt update -y \
+ && apt install -y youtube-dl 
 
 WORKDIR /video-downloader
 RUN go build
+
+USER prod
 
 EXPOSE $PORT
 
