@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"bytes"
+	"encoding/json"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -13,6 +14,10 @@ import (
 
 	"github.com/gorilla/mux"
 )
+
+type search struct {
+	id string `json:"id"`
+}
 
 // Home page
 func Home(w http.ResponseWriter, r *http.Request) {
