@@ -2,8 +2,8 @@
 FROM node:12.2.0-alpine
 
 # Getting frontend port from env
-ARG ARG_PORT
-ENV PORT=$ARG_PORT
+ARG PORT_WEB
+ENV PORT=$PORT_WEB
 
 # Set working directory
 COPY . /app
