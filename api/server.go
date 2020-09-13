@@ -27,12 +27,13 @@ func download(w http.ResponseWriter, r *http.Request) {
 	var payload APIRequest
 	decoder.Decode(&payload)
 
-	if !validateURL(payload.URL) {
+	plataform := validateURL(payload.URL)
+	if plataform == "" {
 		log.Println("Invalid URL")
 		return
 	}
 
-	downloadVideo(payload.URL)
+	downloadVideo(payload.URL, plataform)
 
 	videoPath := "video.mp4"
 	data, err := ioutil.ReadFile(videoPath)
@@ -52,9 +53,9 @@ func download(w http.ResponseWriter, r *http.Request) {
 }
 
 // downloadVideo uses youtube-dl to download videos
-func downloadVideo(URL string) {
+func downloadVideo(URL string, plataform string) {
 
-	log.Println("Received   | " + URL)
+	log.Println(strings.ToUpper(plataform) + " request    | " + URL)
 
 	cmd := "youtube-dl " + URL + " -o video.mp4"
 	_, err := exec.Command("sh", "-c", cmd).Output()
@@ -63,7 +64,7 @@ func downloadVideo(URL string) {
 		return
 	}
 
-	log.Println("Downloaded | " + URL)
+	log.Println(strings.ToUpper(plataform) + " downloaded | " + URL)
 }
 
 // deleteVideo deletes video file
@@ -85,18 +86,18 @@ func getSupportedPlataforms() [4]string {
 }
 
 // validateURL check for a valid URL domain (youtube, twitter, instagram...)
-func validateURL(URL string) bool {
+func validateURL(URL string) string {
 
 	suportedPlataforms := getSupportedPlataforms()
 
 	for _, plataform := range suportedPlataforms {
 
 		if strings.Contains(URL, plataform) {
-			return true
+			return plataform
 		}
 	}
 
-	return false
+	return ""
 }
 
 func main() {
