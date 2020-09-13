@@ -1,8 +1,8 @@
 FROM golang
 
 # Getting backend port from env
-ARG ARG_PORT
-ENV PORT=$ARG_PORT
+ARG PORT_API
+ENV PORT=$PORT_API
 
 # Creating production user
 RUN useradd -ms /bin/bash prod

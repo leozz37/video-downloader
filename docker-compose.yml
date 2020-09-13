@@ -1,0 +1,20 @@
+version: "3.0"
+
+services:
+    api:
+        build:
+            context: api
+            args:
+                PORT_API: 8090
+        ports: [8090:8090]
+        container_name: govideo-api
+        network_mode: "host"
+           
+    web:
+        build:
+            context: web
+            args:
+                PORT_API: 8080
+        ports: [8080:8080]
+        container_name: govideo-web
+        network_mode: "host"
