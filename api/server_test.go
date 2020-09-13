@@ -5,6 +5,7 @@ import (
 	"testing"
 )
 
+// TestDownloadVideo unit test for downloadVideo function
 func TestDownloadVideo(t *testing.T) {
 
 	URL := "https://www.youtube.com/watch?v=UO_QuXr521I"
@@ -22,7 +23,7 @@ func TestDownloadVideo(t *testing.T) {
 	deleteVideo()
 }
 
-// TestDeleteVideo unit test for deleteVideo()
+// TestDeleteVideo unit test for deleteVideo function
 func TestDeleteVideo(t *testing.T) {
 
 	cmd := "touch video.mp4"
@@ -39,7 +40,7 @@ func TestDeleteVideo(t *testing.T) {
 
 }
 
-// TestGetSupportedPlataforms unit test for getSupportedPlataforms()
+// TestGetSupportedPlataforms unit test for getSupportedPlataforms function
 func TestGetSupportedPlataforms(t *testing.T) {
 
 	plataforms := [4]string{
@@ -58,7 +59,7 @@ func TestGetSupportedPlataforms(t *testing.T) {
 	}
 }
 
-// // TestValidateURL unit test for validateURL()
+// // TestValidateURL unit test for validateURL function
 func TestValidateURL(t *testing.T) {
 
 	plataforms := [4]string{

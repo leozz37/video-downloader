@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -16,24 +17,20 @@ import (
 
 // APIRequest request struc
 type APIRequest struct {
-	URL string `json:"data"`
+	URL       string `json:"data"`
+	plataform string
 }
 
 // download work as a main func
 func download(w http.ResponseWriter, r *http.Request) {
 
-	decoder := json.NewDecoder(r.Body)
-
-	var payload APIRequest
-	decoder.Decode(&payload)
-
-	plataform := validateURL(payload.URL)
-	if plataform == "" {
-		log.Println("Invalid URL")
+	payload, err := parsePayload(w, r)
+	if err != nil {
+		log.Println(err)
 		return
 	}
 
-	downloadVideo(payload.URL, plataform)
+	downloadVideo(payload.URL, payload.plataform)
 
 	videoPath := "video.mp4"
 	data, err := ioutil.ReadFile(videoPath)
@@ -65,6 +62,21 @@ func downloadVideo(URL string, plataform string) {
 	}
 
 	log.Println(strings.ToUpper(plataform) + " downloaded | " + URL)
+}
+
+func parsePayload(w http.ResponseWriter, r *http.Request) (APIRequest, error) {
+
+	decoder := json.NewDecoder(r.Body)
+
+	var payload APIRequest
+	decoder.Decode(&payload)
+
+	plataform := validateURL(payload.URL)
+	if plataform == "" {
+		return payload, errors.New("Invalid URL")
+	}
+
+	return payload, nil
 }
 
 // deleteVideo deletes video file
