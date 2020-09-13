@@ -19,5 +19,7 @@ video-downloader
 .vscode
 .idea
 
-# JS stuff
-*.node_modules
+# Frontend stuff
+.DS_Store
+web/node_modules
+web/package-lock.json
