@@ -1,4 +1,4 @@
-module server.go
+module github.com/leozz37/video-downloader
 
 go 1.15
 
