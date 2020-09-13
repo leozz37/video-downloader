@@ -8,10 +8,20 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"strings"
 	"time"
 
 	"github.com/rs/cors"
 )
+
+func getSupportedPlataforms() [4]string {
+	return [...]string{
+		"facebook",
+		"twitter",
+		"youtube",
+		"instagram",
+	}
+}
 
 // APIRequest request struc
 type APIRequest struct {
@@ -35,8 +45,17 @@ func downloadVideo(URL string) {
 
 // validateURL check for a valid URL domain (youtube, twitter, instagram...)
 func validateURL(URL string) bool {
-	// TODO: validate URL
-	return true
+
+	suportedPlataforms := getSupportedPlataforms()
+
+	for _, plataform := range suportedPlataforms {
+
+		if strings.Contains(URL, plataform) {
+			return true
+		}
+	}
+
+	return false
 }
 
 // download work as a main func
