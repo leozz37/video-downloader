@@ -31,7 +31,9 @@ jobs:
         fi
 
     - name: Build
+    working-directory: ./api
       run: go build -v .
 
     - name: Test
+    working-directory: ./api
       run: go test -v .
