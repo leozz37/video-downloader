@@ -14,48 +14,9 @@ import (
 	"github.com/rs/cors"
 )
 
-func getSupportedPlataforms() [4]string {
-	return [...]string{
-		"facebook",
-		"twitter",
-		"youtube",
-		"instagram",
-	}
-}
-
 // APIRequest request struc
 type APIRequest struct {
 	URL string `json:"data"`
-}
-
-// downloadVideo uses youtube-dl to download videos
-func downloadVideo(URL string) {
-
-	log.Println("Received   | " + URL)
-
-	cmd := "youtube-dl " + URL + " -o video.mp4"
-	_, err := exec.Command("sh", "-c", cmd).Output()
-	if err != nil {
-		log.Print(err)
-		return
-	}
-
-	log.Println("Downloaded | " + URL)
-}
-
-// validateURL check for a valid URL domain (youtube, twitter, instagram...)
-func validateURL(URL string) bool {
-
-	suportedPlataforms := getSupportedPlataforms()
-
-	for _, plataform := range suportedPlataforms {
-
-		if strings.Contains(URL, plataform) {
-			return true
-		}
-	}
-
-	return false
 }
 
 // download work as a main func
@@ -67,7 +28,6 @@ func download(w http.ResponseWriter, r *http.Request) {
 	decoder.Decode(&payload)
 
 	if !validateURL(payload.URL) {
-		// TODO: threat invalid URL
 		log.Println("Invalid URL")
 		return
 	}
@@ -91,11 +51,52 @@ func download(w http.ResponseWriter, r *http.Request) {
 	deleteVideo()
 }
 
+// downloadVideo uses youtube-dl to download videos
+func downloadVideo(URL string) {
+
+	log.Println("Received   | " + URL)
+
+	cmd := "youtube-dl " + URL + " -o video.mp4"
+	_, err := exec.Command("sh", "-c", cmd).Output()
+	if err != nil {
+		log.Print(err)
+		return
+	}
+
+	log.Println("Downloaded | " + URL)
+}
+
 // deleteVideo deletes video file
 func deleteVideo() {
 
 	cmd := "rm *.mp4"
 	exec.Command("sh", "-c", cmd).Output()
+}
+
+// getSupportedPlataforms returns the supported video plataforms
+func getSupportedPlataforms() [4]string {
+
+	return [...]string{
+		"facebook",
+		"twitter",
+		"youtube",
+		"instagram",
+	}
+}
+
+// validateURL check for a valid URL domain (youtube, twitter, instagram...)
+func validateURL(URL string) bool {
+
+	suportedPlataforms := getSupportedPlataforms()
+
+	for _, plataform := range suportedPlataforms {
+
+		if strings.Contains(URL, plataform) {
+			return true
+		}
+	}
+
+	return false
 }
 
 func main() {
