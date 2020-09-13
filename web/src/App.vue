@@ -39,15 +39,13 @@ export default {
         .then(response => {
             var blob = new Blob([response.data]);
             var downloadElement = document.createElement("a");
-            var href = window.URL.createObjectURL(blob); //create the download url
+            var href = window.URL.createObjectURL(blob);
             downloadElement.href = href;
-            downloadElement.download = "test.mp4"; //the name of the downloaded file
+            downloadElement.download = "test.mp4";
             document.body.appendChild(downloadElement);
-            downloadElement.click(); //click to file
-            document.body.removeChild(downloadElement); //remove the element 
-            window.URL.revokeObjectURL(href); //release the object  of the blob
-
-            //    console.log(response);
+            downloadElement.click();
+            document.body.removeChild(downloadElement);
+            window.URL.revokeObjectURL(href);
           })
         .catch(response => {
           console.log(response);
