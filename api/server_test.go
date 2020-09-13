@@ -5,6 +5,23 @@ import (
 	"testing"
 )
 
+func TestDownloadVideo(t *testing.T) {
+
+	URL := "https://www.youtube.com/watch?v=UO_QuXr521I"
+	plataform := "youtube"
+
+	downloadVideo(URL, plataform)
+
+	cmd := "ls video.mp4"
+	result, _ := exec.Command("sh", "-c", cmd).Output()
+
+	if string(result) == "" {
+		t.Errorf("Video was not downloaded")
+	}
+
+	deleteVideo()
+}
+
 // TestDeleteVideo unit test for deleteVideo()
 func TestDeleteVideo(t *testing.T) {
 
