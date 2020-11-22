@@ -3,6 +3,7 @@
 ![Go](https://github.com/leozz37/video-downloader/workflows/Go/badge.svg?branch=master)
 ![Docker](https://github.com/leozz37/video-downloader/workflows/Docker/badge.svg?branch=master)
 ![CodeQL](https://github.com/leozz37/video-downloader/workflows/CodeQL/badge.svg?branch=master)
+[![Go Report Card](https://goreportcard.com/badge/github.com/leozz37/video-downloader)](https://goreportcard.com/report/github.com/leozz37/video-downloader)
 
 Download videos from YouTube, Twitter, Instagram, Facebook and Twitch!
 
